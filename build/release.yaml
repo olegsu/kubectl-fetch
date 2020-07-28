@@ -27,6 +27,6 @@ steps:
     image: goreleaser/goreleaser:v0.124.1
     fail_fast: false
     commands:
-    - goreleaser release -f .goreleaser.yml --rm-dist --skip-validate
+    - goreleaser release -f .goreleaser.yaml --rm-dist --skip-validate
 
 
