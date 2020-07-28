@@ -1,4 +1,4 @@
-package main
+package cmd
 
 // Copyright © 2020 oleg2807@gmail.com
 //
@@ -15,9 +15,13 @@ package main
 // limitations under the License.
 
 import (
-	"github.com/olegsu/kubectl-fetch/cmd"
+	"fmt"
+	"os"
 )
 
-func main() {
-	cmd.Execute()
+func dieOnError(msg string, err error) {
+	if err != nil {
+		fmt.Printf("[ERROR] %s: %v", msg, err)
+		os.Exit(1)
+	}
 }
