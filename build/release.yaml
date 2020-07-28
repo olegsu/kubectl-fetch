@@ -23,7 +23,7 @@ steps:
     - git remote add origin $OLD_ORIGIN
 
   release_binaries:
-    title: Create release in Github with venona CLI
+    title: Create release in Github
     image: goreleaser/goreleaser:v0.124.1
     fail_fast: false
     commands:
