@@ -35,4 +35,4 @@ changelog:
 release:
   github:
     owner: olegsu
-    name: kubectl-getch
+    name: kubectl-fetch
