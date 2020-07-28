@@ -13,7 +13,6 @@ steps:
   create_git_tag:
     title: Push tag to git
     image: codefresh/cli
-    stage: Release
     commands:
     - export OLD_ORIGIN=$(git remote get-url origin)
     - git remote rm origin
