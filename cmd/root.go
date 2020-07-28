@@ -20,7 +20,7 @@ import (
 
 const description = `
 Download Kubernetes manifests from remote destinations to be applied via kubecl.`
-const example = `git: kubectl fetch git --repo https://github.com/kubernetes/examples --path guestbook/all-in-one | kubectl applay -f -`
+const example = `git: kubectl fetch git --repo https://github.com/kubernetes/examples --path guestbook/all-in-one | kubectl apply -f -`
 
 var version string
 
