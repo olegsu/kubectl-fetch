@@ -8,7 +8,9 @@ spec:
   shortDescription: "Fetch Kubernetes files from remote destinations"
   description: |
     Fetch Kubernetes files from remote destinations
-    Example git: kubectl fetch-yaml git --repo https://github.com/kubernetes/examples --path guestbook/all-in-one | kubectl applay -f -
+    Example git: kubectl fetch-yaml git --repo \
+    https://github.com/kubernetes/examples --path guestbook/all-in-one | \
+    kubectl apply -f -
   platforms:
     - selector:
         matchLabels:
@@ -16,9 +18,6 @@ spec:
           arch: amd64
       uri: https://github.com/olegsu/kubectl-fetch-yaml/releases/download/v0.1.0/kubectl-fetch-yaml_0.1.0_Darwin_x86_64.tar.gz
       sha256: 39a6b5e97a57b2a0e9bcb883392fd13c29632bfb78ea440ad659a46356cfb234
-      files:
-        - from: "/*"
-          to: "."
       bin: "./kubectl-fetch-yaml"
     - selector:
         matchLabels:
