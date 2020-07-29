@@ -1,4 +1,4 @@
-module github.com/olegsu/kubectl-fetch
+module github.com/olegsu/kubectl-fetch-yaml
 
 go 1.14
 
