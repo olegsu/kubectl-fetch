@@ -20,7 +20,7 @@ import (
 
 const description = `
 Download Kubernetes manifests from remote destinations to be applied via kubecl.`
-const example = `git: kubectl fetch git --repo https://github.com/kubernetes/examples --path guestbook/all-in-one | kubectl apply -f -`
+const example = `git: kubectl fetch-yaml git --repo https://github.com/kubernetes/examples --path guestbook/all-in-one | kubectl apply -f -`
 
 var version string
 
@@ -29,7 +29,7 @@ var rootCmdOptions struct {
 }
 
 var rootCmd = &cobra.Command{
-	Use:     "kubectl-fetch",
+	Use:     "kubectl-fetch-yaml",
 	Long:    description,
 	Example: example,
 	Version: version,

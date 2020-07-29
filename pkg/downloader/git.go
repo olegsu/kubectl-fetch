@@ -10,7 +10,7 @@ import (
 	gogit "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/object"
-	"github.com/olegsu/kubectl-fetch/pkg/logger"
+	"github.com/olegsu/kubectl-fetch-yaml/pkg/logger"
 	"golang.org/x/crypto/ssh"
 
 	"github.com/go-git/go-git/v5/plumbing/transport/http"

@@ -4,7 +4,7 @@ import (
 	"context"
 	"io"
 
-	"github.com/olegsu/kubectl-fetch/pkg/logger"
+	"github.com/olegsu/kubectl-fetch-yaml/pkg/logger"
 	"golang.org/x/crypto/ssh"
 )
 

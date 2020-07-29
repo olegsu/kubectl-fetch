@@ -14,7 +14,7 @@ builds:
   env:
   - CGO_ENABLED=0
   ldflags:
-  - -X github.com/olegsu/kubectl-fatch/cmd.version={{.Version}}
+  - -X github.com/olegsu/kubectl-fetch-yaml/cmd.version={{.Version}}
 
 archives:
 - 
@@ -35,4 +35,4 @@ changelog:
 release:
   github:
     owner: olegsu
-    name: kubectl-fetch
+    name: kubectl-fetch-yaml

@@ -20,8 +20,8 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/olegsu/kubectl-fetch/pkg/downloader"
-	"github.com/olegsu/kubectl-fetch/pkg/logger"
+	"github.com/olegsu/kubectl-fetch-yaml/pkg/downloader"
+	"github.com/olegsu/kubectl-fetch-yaml/pkg/logger"
 	"github.com/spf13/cobra"
 	"golang.org/x/crypto/ssh"
 )

@@ -15,7 +15,7 @@ package main
 // limitations under the License.
 
 import (
-	"github.com/olegsu/kubectl-fetch/cmd"
+	"github.com/olegsu/kubectl-fetch-yaml/cmd"
 )
 
 func main() {
