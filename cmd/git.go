@@ -31,6 +31,7 @@ var gitCmdOptions struct {
 	user       string
 	repo       string
 	branch     string
+	revision   string
 	path       string
 	token      string
 	verbose    bool
@@ -53,14 +54,15 @@ var gitCmd = &cobra.Command{
 		}
 
 		downloader := downloader.NewGitDownloader(downloader.GitOptions{
-			Target: os.Stdout,
-			Singer: singer,
-			User:   gitCmdOptions.user,
-			Branch: gitCmdOptions.branch,
-			Repo:   gitCmdOptions.repo,
-			Path:   gitCmdOptions.path,
-			Token:  gitCmdOptions.token,
-			Logger: lgr,
+			Target:   os.Stdout,
+			Singer:   singer,
+			User:     gitCmdOptions.user,
+			Branch:   gitCmdOptions.branch,
+			Revision: gitCmdOptions.revision,
+			Repo:     gitCmdOptions.repo,
+			Path:     gitCmdOptions.path,
+			Token:    gitCmdOptions.token,
+			Logger:   lgr,
 		})
 
 		err = downloader.Download(ctx, os.Stdout)
@@ -75,6 +77,7 @@ func init() {
 	gitCmd.Flags().StringVar(&gitCmdOptions.user, "user", "git", "User to be user to authenticated")
 	gitCmd.Flags().StringVar(&gitCmdOptions.branch, "branch", "master", "Branch to clone")
 	gitCmd.Flags().StringVar(&gitCmdOptions.repo, "repo", "", "Repository to clone")
+	gitCmd.Flags().StringVar(&gitCmdOptions.revision, "revision", "", "Revision to clone")
 	gitCmd.Flags().StringVar(&gitCmdOptions.path, "path", "", "Path inside the repo")
 	gitCmd.Flags().BoolVar(&gitCmdOptions.verbose, "verbose", false, "Print more logs")
 }

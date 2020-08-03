@@ -37,14 +37,15 @@ const yamlSeperator = "---"
 
 type (
 	git struct {
-		target io.Writer
-		singer ssh.Signer
-		user   string
-		repo   string
-		branch string
-		path   string
-		logger logger.Logger
-		token  string
+		target   io.Writer
+		singer   ssh.Signer
+		user     string
+		repo     string
+		branch   string
+		revision string
+		path     string
+		logger   logger.Logger
+		token    string
 	}
 )
 
@@ -55,26 +56,34 @@ func (g git) Download(context context.Context, dest io.Writer) error {
 		ReferenceName: plumbing.NewBranchReferenceName(g.branch),
 		Auth:          g.buildAuthentication(),
 	}
-	g.logger.Debug("Cloning", "repo", g.repo, "branch", g.branch)
+	g.logger.Debug("Cloning", "repo", g.repo, "branch", g.branch, "revision", g.revision)
 	m := memory.NewStorage()
 	repo, err := gogit.CloneContext(context, m, nil, cloneOptions)
 	if err != nil {
 		return fmt.Errorf("Failed to clone repo: %w", err)
 	}
-	head, err := repo.Head()
-	if err != nil {
-		return fmt.Errorf("Failed to get HEAD: %w", err)
+
+	hash := g.revision
+	if g.revision == "" {
+		g.logger.Debug("Revision is not set. Using HEAD")
+		h, err := repo.Head()
+		if err != nil {
+			return fmt.Errorf("Failed to get HEAD: %w", err)
+		}
+		hash = h.Hash().String()
 	}
 	commitIter, err := repo.CommitObjects()
 	if err != nil {
 		return fmt.Errorf("Failed create commit iterator: %w", err)
 	}
-	commitIter.ForEach(func(c *object.Commit) error {
-		if c.Hash != head.Hash() {
-			return nil
+	return commitIter.ForEach(func(c *object.Commit) error {
+		h := c.Hash.String()
+		if len(hash) == 7 {
+			h = c.Hash.String()[:7]
 		}
-		g.logger.Debug("Iterating over commit tree", "committer", c.Committer.String(), "message", c.Message)
-
+		if h != hash {
+			return nil // move to the next commit
+		}
 		filesIter, err := c.Files()
 		if err != nil {
 			return fmt.Errorf("Failed commit file iterator: %w", err)
@@ -95,8 +104,6 @@ func (g git) Download(context context.Context, dest io.Writer) error {
 			return nil
 		})
 	})
-
-	return nil
 }
 
 func (g git) buildAuthentication() transport.AuthMethod {

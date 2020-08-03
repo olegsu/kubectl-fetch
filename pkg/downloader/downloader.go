@@ -29,27 +29,29 @@ type (
 	}
 
 	GitOptions struct {
-		Singer ssh.Signer
-		User   string
-		Repo   string
-		Branch string
-		Path   string
-		Logger logger.Logger
-		Target io.Writer
-		Token  string
+		Singer   ssh.Signer
+		User     string
+		Repo     string
+		Branch   string
+		Revision string
+		Path     string
+		Logger   logger.Logger
+		Target   io.Writer
+		Token    string
 	}
 )
 
 // NewGitDownloader download files from git repos
 func NewGitDownloader(opt GitOptions) Downloader {
 	return &git{
-		singer: opt.Singer,
-		user:   opt.User,
-		branch: opt.Branch,
-		path:   opt.Path,
-		repo:   opt.Repo,
-		logger: opt.Logger,
-		target: opt.Target,
-		token:  opt.Token,
+		singer:   opt.Singer,
+		user:     opt.User,
+		branch:   opt.Branch,
+		revision: opt.Revision,
+		path:     opt.Path,
+		repo:     opt.Repo,
+		logger:   opt.Logger,
+		target:   opt.Target,
+		token:    opt.Token,
 	}
 }
