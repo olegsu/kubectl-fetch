@@ -10,6 +10,7 @@ import (
 	gogit "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/object"
+	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/olegsu/kubectl-fetch-yaml/pkg/logger"
 	"golang.org/x/crypto/ssh"
 
@@ -52,22 +53,7 @@ func (g git) Download(context context.Context, dest io.Writer) error {
 		URL:           g.repo,
 		SingleBranch:  true,
 		ReferenceName: plumbing.NewBranchReferenceName(g.branch),
-	}
-	if g.singer != nil {
-		g.logger.Debug("Authentication ssh key")
-		auth := &gitssh.PublicKeys{
-			User:   g.user,
-			Signer: g.singer,
-		}
-		auth.HostKeyCallback = ssh.InsecureIgnoreHostKey()
-		cloneOptions.Auth = auth
-	} else if g.token != "" {
-		g.logger.Debug("Authentication with user and token", "user", g.user, "token", g.token)
-		auth := &http.BasicAuth{
-			Username: g.user,
-			Password: g.token,
-		}
-		cloneOptions.Auth = auth
+		Auth:          g.buildAuthentication(),
 	}
 	g.logger.Debug("Cloning", "repo", g.repo, "branch", g.branch)
 	m := memory.NewStorage()
@@ -109,6 +95,28 @@ func (g git) Download(context context.Context, dest io.Writer) error {
 			return nil
 		})
 	})
+
+	return nil
+}
+
+func (g git) buildAuthentication() transport.AuthMethod {
+	if g.singer != nil {
+		g.logger.Debug("Authentication ssh key")
+		auth := &gitssh.PublicKeys{
+			User:   g.user,
+			Signer: g.singer,
+		}
+		auth.HostKeyCallback = ssh.InsecureIgnoreHostKey()
+		return auth
+	}
+	if g.token != "" {
+		g.logger.Debug("Authentication with user and token", "user", g.user, "token", g.token)
+		auth := &http.BasicAuth{
+			Username: g.user,
+			Password: g.token,
+		}
+		return auth
+	}
 
 	return nil
 }
