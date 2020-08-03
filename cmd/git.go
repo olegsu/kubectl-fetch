@@ -45,7 +45,7 @@ var gitCmd = &cobra.Command{
 		var err error
 		if gitCmdOptions.sshKeyPath != "" {
 			singer, err = readPrivateKey(gitCmdOptions.sshKeyPath)
-			dieOnError("", err)
+			dieOnError("Failed to read key file", err)
 		}
 
 		downloader := downloader.NewGitDownloader(downloader.GitOptions{
