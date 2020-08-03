@@ -15,8 +15,12 @@ package cmd
 // limitations under the License.
 
 import (
+	"context"
 	"fmt"
 	"os"
+	"os/signal"
+
+	"github.com/olegsu/kubectl-fetch-yaml/pkg/logger"
 )
 
 func dieOnError(msg string, err error) {
@@ -24,4 +28,14 @@ func dieOnError(msg string, err error) {
 		fmt.Printf("[ERROR] %s: %v", msg, err)
 		os.Exit(1)
 	}
+}
+
+func startSignalHandler(logger logger.Logger, cancel context.CancelFunc) {
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt)
+	go func() {
+		s := <-sig
+		logger.Debug("Got signal", "signal", s)
+		cancel()
+	}()
 }

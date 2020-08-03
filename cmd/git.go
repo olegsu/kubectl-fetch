@@ -40,7 +40,11 @@ var gitCmd = &cobra.Command{
 	Use:  "git",
 	Long: "Download file or directory from git repository",
 	Run: func(cmd *cobra.Command, args []string) {
-
+		lgr := logger.New(logger.Options{
+			Verbose: gitCmdOptions.verbose,
+		})
+		ctx, cancel := context.WithCancel(context.Background())
+		startSignalHandler(lgr, cancel)
 		var singer ssh.Signer
 		var err error
 		if gitCmdOptions.sshKeyPath != "" {
@@ -56,12 +60,10 @@ var gitCmd = &cobra.Command{
 			Repo:   gitCmdOptions.repo,
 			Path:   gitCmdOptions.path,
 			Token:  gitCmdOptions.token,
-			Logger: logger.New(logger.Options{
-				Verbose: gitCmdOptions.verbose,
-			}),
+			Logger: lgr,
 		})
 
-		err = downloader.Download(context.Background(), os.Stdout)
+		err = downloader.Download(ctx, os.Stdout)
 		dieOnError("Failed to download file", err)
 	},
 }
