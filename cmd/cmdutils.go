@@ -25,7 +25,11 @@ import (
 
 func dieOnError(msg string, err error) {
 	if err != nil {
-		fmt.Printf("[ERROR] %s: %v", msg, err)
+		if msg == "" {
+			fmt.Printf("[ERROR]: %v\n", err)
+		} else {
+			fmt.Printf("[ERROR] %s: %v\n", msg, err)
+		}
 		os.Exit(1)
 	}
 }
