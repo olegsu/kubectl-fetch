@@ -3,7 +3,7 @@ kind: Plugin
 metadata:
   name: fetch-yaml
 spec:
-  version: "v0.1.0"
+  version: "v0.2.0"
   homepage: https://github.com/olegsu/kubectl-fetch-yaml
   shortDescription: "Fetch Kubernetes files from remote destinations"
   description: |
@@ -16,13 +16,13 @@ spec:
         matchLabels:
           os: darwin
           arch: amd64
-      uri: https://github.com/olegsu/kubectl-fetch-yaml/releases/download/v0.1.0/kubectl-fetch-yaml_0.1.0_Darwin_x86_64.tar.gz
-      sha256: 39a6b5e97a57b2a0e9bcb883392fd13c29632bfb78ea440ad659a46356cfb234
+      uri: https://github.com/olegsu/kubectl-fetch-yaml/releases/download/v0.2.0/kubectl-fetch-yaml_0.2.0_Darwin_x86_64.tar.gz
+      sha256: e9437eef1fbe2c535a21fbc894d2ce1e1b68a4cf64212c58b4e247f6fd0a105f
       bin: "./kubectl-fetch-yaml"
     - selector:
         matchLabels:
           os: linux
           arch: amd64
-      uri: https://github.com/olegsu/kubectl-fetch-yaml/releases/download/v0.1.0/kubectl-fetch-yaml_0.1.0_Linux_x86_64.tar.gz
+      uri: https://github.com/olegsu/kubectl-fetch-yaml/releases/download/v0.2.0/kubectl-fetch-yaml_0.2.0_Linux_x86_64.tar.gz
       bin: "./kubectl-fetch-yaml"
-      sha256: f0039cb8c863318436fe7df9c8cbbcffb333444fa1fda07af92732caa6ddf370
+      sha256: 35e3d2d96f832e13483baa384f0adec6c186cf6df65a30dd1f915a7ff9d5a4fe
