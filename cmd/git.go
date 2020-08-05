@@ -27,14 +27,15 @@ import (
 )
 
 var gitCmdOptions struct {
-	sshKeyPath string
-	user       string
-	repo       string
-	branch     string
-	revision   string
-	path       string
-	token      string
-	verbose    bool
+	sshKeyPath    string
+	user          string
+	repo          string
+	branch        string
+	revision      string
+	path          string
+	token         string
+	allowInsecure bool
+	verbose       bool
 }
 
 var gitCmd = &cobra.Command{
@@ -44,6 +45,9 @@ var gitCmd = &cobra.Command{
 		lgr := logger.New(logger.Options{
 			Verbose: gitCmdOptions.verbose,
 		})
+		if !gitCmdOptions.allowInsecure && gitCmdOptions.revision == "" {
+			dieOnError("", fmt.Errorf("Unstable URL. Force with --allow-insecure or use a the --revison link"))
+		}
 		ctx, cancel := context.WithCancel(context.Background())
 		startSignalHandler(lgr, cancel)
 		var singer ssh.Signer
@@ -80,6 +84,7 @@ func init() {
 	gitCmd.Flags().StringVar(&gitCmdOptions.revision, "revision", "", "Revision to clone, default is HEAD of branch")
 	gitCmd.Flags().StringVar(&gitCmdOptions.path, "path", "", "Path inside the repo")
 	gitCmd.Flags().BoolVar(&gitCmdOptions.verbose, "verbose", false, "Print more logs")
+	gitCmd.Flags().BoolVar(&gitCmdOptions.allowInsecure, "allow-insecure", false, "Allow fetching files from ephemeral URLs (secured URL considered when a revision flag set).")
 }
 
 func readPrivateKey(path string) (ssh.Signer, error) {
