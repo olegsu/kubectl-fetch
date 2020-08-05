@@ -19,7 +19,6 @@ steps:
   build_binaries:
     title: Build Binaries
     image: goreleaser/goreleaser:v0.140.0
-    fail_fast: false
     commands:
     - goreleaser build -f .goreleaser.yaml --rm-dist --skip-validate
 
@@ -42,7 +41,6 @@ steps:
   release_binaries:
     title: Create New Release in Github
     image: goreleaser/goreleaser:v0.140.0
-    fail_fast: false
     commands:
     - goreleaser release -f .goreleaser.yaml --rm-dist --skip-validate
     when:
