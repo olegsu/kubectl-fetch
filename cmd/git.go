@@ -74,7 +74,7 @@ func init() {
 	rootCmd.AddCommand(gitCmd)
 	gitCmd.Flags().StringVar(&gitCmdOptions.sshKeyPath, "key-file", "", "Path to ssh key")
 	gitCmd.Flags().StringVar(&gitCmdOptions.token, "token", "", "Authentication token")
-	gitCmd.Flags().StringVar(&gitCmdOptions.user, "user", "git", "User to be user to authenticated")
+	gitCmd.Flags().StringVar(&gitCmdOptions.user, "user", "git", "User to be used to authenticated")
 	gitCmd.Flags().StringVar(&gitCmdOptions.branch, "branch", "master", "Branch to clone")
 	gitCmd.Flags().StringVar(&gitCmdOptions.repo, "repo", "", "Repository to clone")
 	gitCmd.Flags().StringVar(&gitCmdOptions.revision, "revision", "", "Revision to clone, default is HEAD of branch")
