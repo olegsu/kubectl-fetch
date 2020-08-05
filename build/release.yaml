@@ -9,7 +9,20 @@ steps:
       branch:
         only:
         - master
-          
+
+  calc_version:
+    image: codefresh/cli
+    commands:
+    - cf_export VERSION=$(cat VERSION)
+    - cf_export LATEST_VERSION=$(git show origin/master:VERSION)
+
+  build_binaries:
+    title: Create release in Github
+    image: goreleaser/goreleaser:v0.124.1
+    fail_fast: false
+    commands:
+    - goreleaser build -f .goreleaser.yaml --rm-dist --skip-validate
+
   create_git_tag:
     title: Push tag to git
     image: codefresh/cli
@@ -21,6 +34,10 @@ steps:
     - git push --tags
     - git remote rm origin
     - git remote add origin $OLD_ORIGIN
+    when:
+      condition:
+        all:
+          NewVersion: '"${{VERSION}}" != "${{LATEST_VERSION}}"'
 
   release_binaries:
     title: Create release in Github
@@ -28,5 +45,9 @@ steps:
     fail_fast: false
     commands:
     - goreleaser release -f .goreleaser.yaml --rm-dist --skip-validate
+    when:
+      condition:
+        all:
+          NewVersion: '"${{VERSION}}" != "${{LATEST_VERSION}}"'
 
 
